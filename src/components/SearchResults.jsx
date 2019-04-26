@@ -1,20 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const showEventsContent = (item, key) => {
-    console.log("In showlog");
-    return <><div id={key}>
-        <div>Event Type : {item.type}</div>
-       <div> {(null != item.actor) ?
-                        <><div>Actor Information</div>
-        <div>Avatar URL: {item.actor.avatar_url}</div>
-        <div>Display Login: {item.actor.display_login}</div>
-        <div>Gravatar Id: {item.actor.gravatar_id}</div>
-        <div>Id: {item.actor.id}</div>
-        <div>Login: {item.actor.login}</div>
-        <div>Repository URL: {item.actor.url}</div></>
-        : "" } </div>
-         <div>Timestamp  : {item.created_at}</div>
+const showEventsContent = (item, index) => {
+    return <><div key={generateUniqueId()} className="margin-t-10 border">
+        <div key={generateUniqueId()}> {(null != item.actor) ?
+            <>
+                <h3 key={generateUniqueId()}>Event - {index} : Actor, Timestamp Information</h3>
+                <div key={generateUniqueId()} className="borderTop"><div>
+                    <label key={generateUniqueId()} className="bold">Avatar URL: </label>{item.actor.avatar_url}
+                </div>
+                    <div key={generateUniqueId()}>
+                        <label className="bold">Display Login: </label>{item.actor.display_login}
+                    </div>
+                    {!!item.actor.gravatar_id ?
+                        <div key={generateUniqueId()}>
+                            <label className="bold">Gravatar Id: </label>{item.actor.gravatar_id}
+                        </div>
+                        : ""}
+                    <div key={generateUniqueId()}>
+                        <label className="bold">Id: </label>{item.actor.id}
+                    </div>
+                    <div key={generateUniqueId()}>
+                        <label className="bold">Login: </label>{item.actor.login}
+                    </div>
+                    <div key={generateUniqueId()}>
+                        <label className="bold">Repository URL: </label>{item.actor.url}
+                    </div>
+                    <div key={generateUniqueId()}>
+                        <label className="bold">Timestamp: </label>{item.created_at}
+                    </div>
+                </div></>
+            : ""} </div>
+
     </div></>;
 };
 
@@ -22,14 +39,20 @@ export const SearchResults = ({ eventDetails, requestedEvent }) => {
     const eventsArray = eventDetails && eventDetails.data;
     const matchingEvents = eventsArray && eventsArray.filter(item => (item.type === requestedEvent));
     return !!matchingEvents ?
-        matchingEvents.map((item, index) => {
-            console.log("item", item);
-            const key = "uniqueId_" + index;
-            return showEventsContent(item, key);
-        })
+        <div className="mainComp center">
+            <div className="header"> REPO EVENTS VIEWER APP </div>
+            <div key={generateUniqueId()} className="padding-t-10"><h3>Event Type : <span className="margin-l-10">{requestedEvent}</span></h3></div>
+            {matchingEvents.map((item, index) => {
+                return showEventsContent(item, index);
+            })}
+        </div>
         :
         <div>Sorry, no events found for the search criteria.</div>
 };
+
+const generateUniqueId = () => {
+    return Math.random().toString(36).slice(2);
+}
 
 SearchResults.propTypes = {
     eventDetails: PropTypes.shape({}).isRequired,
