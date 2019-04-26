@@ -7,18 +7,15 @@ import { SearchResults } from './components/SearchResults';
 export default class RepoEventsViewerApp extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = { eventDetails: null };
         this.handleSearch = this.handleSearch.bind(this);
     }
     handleSearch() {
         console.log('Inside onsubmit');
         axios.get('https://api.github.com/repos/pushkar327/RepoEventsViewer_RN/events')
         .then(evtsResponse => {
-          var eventArray = evtsResponse.data;
-          eventArray.map((item, index) => {
-              console.log("Item: ", item, "Index: ", index);
-          });
-          
+          this.setState({ "eventDetails": evtsResponse});
+          console.log("this.state....", this.state);
         });
     }
     render() {
@@ -56,7 +53,9 @@ export default class RepoEventsViewerApp extends Component {
                         <button className="textbox margin-t-30 width-60 bold blueBg margin-b-20" type="button" onClick={this.handleSearch}>SEARCH</button>
                     </form>
                 </div>
-                <SearchResults/>
+                    { this.state.eventDetails &&
+                    <SearchResults eventDetails={this.state.eventDetails} requestedEvent="PushEvent"/>
+                }
             </div>
         );
     }
