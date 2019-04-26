@@ -5,7 +5,7 @@ const showEventsContent = (item, index) => {
     return <><div key={generateUniqueId()} className="margin-t-10 border">
         <div key={generateUniqueId()}> {(null != item.actor) ?
             <>
-                <h3 key={generateUniqueId()}>Event - {index} : Actor, Timestamp Information</h3>
+                <h3 key={generateUniqueId()}>Event - {index+1} : Actor, Timestamp Information</h3>
                 <div key={generateUniqueId()} className="borderTop"><div>
                     <label key={generateUniqueId()} className="bold">Avatar URL: </label>{item.actor.avatar_url}
                 </div>
