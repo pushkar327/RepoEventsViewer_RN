@@ -7,12 +7,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-export const SearchResults = ({ eventDetails, requestedEvent, goBack }) => {
+export const SearchResults = ({ eventDetails, requestedEvent }) => {
     const eventsArray = eventDetails && eventDetails.data;
     const matchingEvents = eventsArray && eventsArray.filter(item => (item.type === requestedEvent));
     return !!matchingEvents ?
         <div className="mainComp center">
-            <div className="header"> REPO EVENTS VIEWER APP </div>
             <div key={generateUniqueId()} className="padding-t-10"><h3>Event Type : <span className="margin-l-10">{requestedEvent}</span></h3></div>
             <Paper className="root">
                 <Table className="table" >
@@ -30,16 +29,16 @@ export const SearchResults = ({ eventDetails, requestedEvent, goBack }) => {
                     <TableBody>
 
                         {matchingEvents.map((item, index) => {
-                            return <TableRow key="">
-                                <TableCell component="th" scope="row">
+                            return <TableRow key={generateUniqueId()}>
+                                <TableCell component="th" scope="row" key={generateUniqueId()}>
                                     {item.actor.avatar_url}
                                 </TableCell>
-                                <TableCell align="right">{item.actor.display_login}</TableCell>
-                                <TableCell align="right">{!!item.actor.gravatar_id ? item.actor.gravatar_id : "-"}</TableCell>
-                                <TableCell align="right">{item.actor.id}</TableCell>
-                                <TableCell align="right">{item.actor.login}</TableCell>
-                                <TableCell align="right">{item.actor.url}</TableCell>
-                                <TableCell align="right">{item.created_at}</TableCell>
+                                <TableCell align="right" key={generateUniqueId()}>{item.actor.display_login}</TableCell>
+                                <TableCell align="right" key={generateUniqueId()}>{!!item.actor.gravatar_id ? item.actor.gravatar_id : "-"}</TableCell>
+                                <TableCell align="right" key={generateUniqueId()}>{item.actor.id}</TableCell>
+                                <TableCell align="right" key={generateUniqueId()}>{item.actor.login}</TableCell>
+                                <TableCell align="right" key={generateUniqueId()}>{item.actor.url}</TableCell>
+                                <TableCell align="right" key={generateUniqueId()}>{item.created_at}</TableCell>
                             </TableRow>
                         })
                         }
@@ -58,6 +57,7 @@ export const SearchResults = ({ eventDetails, requestedEvent, goBack }) => {
         </div>
 };
 
+//Duplication might occur once in 70 million times, so kind of safe to use.
 const generateUniqueId = () => {
     return Math.random().toString(36).slice(2);
 }
@@ -65,11 +65,9 @@ const generateUniqueId = () => {
 SearchResults.propTypes = {
     eventDetails: PropTypes.shape({}).isRequired,
     requestedEvent: PropTypes.string.isRequired,
-    goBack: PropTypes.func.isRequired,
 }
 
 SearchResults.defaultPropTypes = {
     eventDetails: {},
     requestedEvent: "PushEvent",
-    goBack: () => {},
 }
