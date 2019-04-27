@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Loading } from './Loading';
 import { SearchButton } from './SearchButton';
 
-export const SearchForm = ({handleSearch, currentlySearching}) => {
+export const SearchForm = () => {
     return (<div>     <h3>
         Hello User!
                         </h3>
@@ -31,16 +31,5 @@ export const SearchForm = ({handleSearch, currentlySearching}) => {
                 </div>
                 <input className="textbox margin-10" type="text" name="eventType" />
             </div>
-            <SearchButton handleSearch={handleSearch}/>
         </form></div>);
 };
-
-SearchForm.propTypes = {
-    handleSearch: PropTypes.func.isRequired,
-    currentlySearching: PropTypes.bool,
-}
-
-SearchForm.defaultPropTypes = {
-    handleSearch: () => {},
-    currentlySearching: false,
-}

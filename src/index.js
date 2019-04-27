@@ -7,6 +7,7 @@ import { Header } from './components/Header';
 import { LOADING, LOADED, ERROR } from './RepoEventsViewerStates';
 import { SearchForm } from './components/SearchForm';
 import { Loading } from './components/Loading';
+import { SearchButton } from './components/SearchButton';
 
 export default class RepoEventsViewerApp extends Component {
     constructor(props) {
@@ -33,27 +34,28 @@ export default class RepoEventsViewerApp extends Component {
     render() {
         let bodyContent = "";
         if (this.state.loading && !this.state.loaded) {
-            bodyContent = <Loading/>;
+            bodyContent = (<div className="mainComp center"><Header/><SearchForm/><Loading/></div>);
         }
         else {
             bodyContent = (
                 ((!this.state.eventDetails && !this.state.loading && this.state.loaded) || this.state.error) ?
                     (<div className="mainComp center">
                         <Header/>
-                        <SearchForm handleSearch={this.handleSearch}/>
+                        <SearchForm/>
+                        <SearchButton handleSearch={this.handleSearch}/>
                         {
                             this.state.error ?
                                 <div className="error margin-b-20">Sorry, no events found for given search criteria. Please try again.</div>
                                 : ""
                         }
-
                     </div>
 
                     )
                     : this.state.eventDetails && this.state.loaded && !this.state.error &&
                      (<div className="mainComp center">
                         <Header/>
-                        <SearchForm handleSearch={this.handleSearch}/>
+                        <SearchForm/>
+                        <SearchButton handleSearch={this.handleSearch}/>
                         <SearchResults eventDetails={this.state.eventDetails} requestedEvent="PushEvent" />
                      </div>)
             );

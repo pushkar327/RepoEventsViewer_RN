@@ -48,13 +48,7 @@ export const SearchResults = ({ eventDetails, requestedEvent }) => {
 
         </div>
         :
-        <div className="mainComp center">
-            <div className="header">
-                REPO EVENTS VIEWER APP
-            </div>
-            <div className="margin-t-40">Sorry, no events found for the search criteria. Please click on "Go Back" to continue your search using other criteria.</div>
-            <button className="textbox margin-t-30 width-60 bold blueBg margin-b-20" type="button">Go Back</button>
-        </div>
+        <div className="error margin-b-20">Sorry, no events found for given search criteria. Please try again.</div>
 };
 
 //Duplication might occur once in 70 million times, so kind of safe to use.

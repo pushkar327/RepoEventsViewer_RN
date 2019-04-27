@@ -122,10 +122,9 @@
 }
 
 .waitLayer{
-    height: 289px;
+    height: 50px;
     font-weight: bold;
-    font-size: 20pt;
-    padding-top: 230px;
+    font-size: 14pt;
 }
 .border{
     border: solid 1px black;
