@@ -27,6 +27,19 @@
     font-size: 14px;
 }
 
+.table{
+    min-width: 700,
+}
+
+.root {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.error{
+    color:red;
+}
+
 .labels{
     width: 300px;
 }
@@ -76,6 +89,10 @@
 }
 
 .margin-b-20{
+    margin-bottom: 20px;
+}
+
+.margin-b-30{
     margin-bottom: 20px;
 }
 

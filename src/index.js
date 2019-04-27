@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './app.css';
 import axios from 'axios';
 import { SearchResults } from './components/SearchResults';
-import { LOADING, LOADED } from './RepoEventsViewerStates';
+import { LOADING, LOADED, ERROR } from './RepoEventsViewerStates';
 
 export default class RepoEventsViewerApp extends Component {
     constructor(props) {
@@ -16,18 +16,26 @@ export default class RepoEventsViewerApp extends Component {
     }
     handleSearch() {
         this.setState(LOADING);
-        axios.get('https://api.github.com/repos/pushkar327/RepoEventsViewer_RN/events')
+        const httpClient = axios.create();
+        httpClient.defaults.timeout = 5000;
+        httpClient.get('https://api.github.com/repos/pushkar327/RepoEventsViewer_RN/events')
             .then(evtsResponse => {
                 this.setState({ "eventDetails": evtsResponse, "loading": false, "loaded": true });
+            }).catch((error) => {
+                this.setState(ERROR);
+                console.log(error);
             });
     }
+
     render() {
-        let bodyContent = null;
-        (this.state.loading && !this.state.loaded) ?
+        let bodyContent = "";
+        if (this.state.loading && !this.state.loaded) {
             bodyContent = <div className="mainComp center waitLayer loading">
-            Loading</div>
-            : bodyContent = (
-                !this.state.eventDetails && !this.state.loading && this.state.loaded ?
+                Loading</div>
+        }
+        else {
+            bodyContent = (
+                ((!this.state.eventDetails && !this.state.loading && this.state.loaded) || this.state.error) ?
                     (<div className="mainComp center">
                         <div className="header"> REPO EVENTS VIEWER APP </div>
                         <h3>
@@ -59,13 +67,20 @@ export default class RepoEventsViewerApp extends Component {
                             </div>
                             <button className="textbox margin-t-30 width-60 bold blueBg margin-b-20" type="button" onClick={this.handleSearch}>SEARCH</button>
                         </form>
-                    </div>)
-                    :
-                    this.state.eventDetails && this.state.loaded &&
+                        {
+                            this.state.error ?
+                                <div className="error margin-b-20">Sorry, no events found for the search criteria. Please click on "Go Back" to continue your search using other criteria.</div>
+                                : ""
+                        }
+
+                    </div>
+
+                    )
+                    : this.state.eventDetails && this.state.loaded && !this.state.error &&
                     <SearchResults eventDetails={this.state.eventDetails} requestedEvent="PushEvent" />
             );
+        }
         return bodyContent;
     }
 }
-
 ReactDOM.render(<RepoEventsViewerApp />, document.getElementById('root'));
