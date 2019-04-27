@@ -69,7 +69,7 @@ export default class RepoEventsViewerApp extends Component {
                         </form>
                         {
                             this.state.error ?
-                                <div className="error margin-b-20">Sorry, no events found for the search criteria. Please click on "Go Back" to continue your search using other criteria.</div>
+                                <div className="error margin-b-20">Sorry, no events found for given search criteria. Please click on "Go Back" to continue your search using other criteria.</div>
                                 : ""
                         }
 
