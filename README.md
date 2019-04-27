@@ -36,4 +36,4 @@ In progress
 
 ## Author
 
-* **Pushkar Karamungikar** - *Initial work* - [pushkar327](https://github.com/pushkar327)
+* **Pushkar Karamungikar** - [pushkar327](https://github.com/pushkar327)
