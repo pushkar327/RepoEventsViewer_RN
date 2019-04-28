@@ -40,6 +40,10 @@
     color:red;
 }
 
+.errorBorder{
+    border: 1px solid red;
+}
+
 .labels{
     width: 300px;
 }

@@ -1,24 +1,27 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import './app.css';
 import axios from 'axios';
+import './app.css';
 import { SearchResults } from './components/SearchResults';
 import { Header } from './components/Header';
 import { LOADING, LOADED, ERROR } from './RepoEventsViewerStates';
-import { SearchForm } from './components/SearchForm';
+import SearchForm from './components/SearchForm';
 import { Loading } from './components/Loading';
-import { SearchButton } from './components/SearchButton';
 
 export default class RepoEventsViewerApp extends Component {
     constructor(props) {
         super(props);
-        this.state = LOADING;
-        this.handleSearch = this.handleSearch.bind(this);
+        this.state = {
+            ...LOADING, 
+            callEventsAPI: this.callEventsAPI.bind(this)
+        };
     }
+
     componentDidMount() {
         this.setState(LOADED);
     }
-    handleSearch() {
+
+    callEventsAPI() {
         this.setState(LOADING);
         const httpClient = axios.create();
         httpClient.defaults.timeout = 5000;
@@ -34,15 +37,14 @@ export default class RepoEventsViewerApp extends Component {
     render() {
         let bodyContent = "";
         if (this.state.loading && !this.state.loaded) {
-            bodyContent = (<div className="mainComp center"><Header/><SearchForm/><Loading/></div>);
+            bodyContent = (<div className="mainComp center"><Header /><SearchForm callEventsAPI={this.state.callEventsAPI} /><Loading /></div>);
         }
         else {
             bodyContent = (
                 ((!this.state.eventDetails && !this.state.loading && this.state.loaded) || this.state.error) ?
                     (<div className="mainComp center">
-                        <Header/>
-                        <SearchForm/>
-                        <SearchButton handleSearch={this.handleSearch}/>
+                        <Header />
+                        <SearchForm callEventsAPI={this.state.callEventsAPI} />
                         {
                             this.state.error ?
                                 <div className="error margin-b-20">Sorry, no events found for given search criteria. Please try again.</div>
@@ -52,12 +54,11 @@ export default class RepoEventsViewerApp extends Component {
 
                     )
                     : this.state.eventDetails && this.state.loaded && !this.state.error &&
-                     (<div className="mainComp center">
-                        <Header/>
-                        <SearchForm/>
-                        <SearchButton handleSearch={this.handleSearch}/>
+                    (<div className="mainComp center">
+                        <Header />
+                        <SearchForm callEventsAPI={this.state.callEventsAPI} />
                         <SearchResults eventDetails={this.state.eventDetails} requestedEvent="PushEvent" />
-                     </div>)
+                    </div>)
             );
         }
         return bodyContent;
