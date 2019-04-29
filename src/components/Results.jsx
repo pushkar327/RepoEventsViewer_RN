@@ -7,7 +7,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-export const SearchResults = ({ eventDetails, requestedEvent }) => {
+export const Results = ({ eventDetails, requestedEvent }) => {
     const eventsArray = eventDetails && eventDetails.data;
     const matchingEvents = eventsArray && eventsArray.filter(item => (item.type === requestedEvent));
     return !!matchingEvents ?
@@ -56,12 +56,12 @@ const generateUniqueId = () => {
     return Math.random().toString(36).slice(2);
 }
 
-SearchResults.propTypes = {
+Results.propTypes = {
     eventDetails: PropTypes.shape({}).isRequired,
     requestedEvent: PropTypes.string.isRequired,
 }
 
-SearchResults.defaultPropTypes = {
+Results.defaultPropTypes = {
     eventDetails: {},
     requestedEvent: "PushEvent",
 }
