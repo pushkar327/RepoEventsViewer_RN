@@ -37,7 +37,6 @@ export default class SearchForm extends Component {
                 this.setState({ "eventDetails": evtsResponse, "loading": false, "loaded": true });
             }).catch((error) => {
                 this.setState(ERROR);
-                console.log(error);
             });
     }
 
@@ -50,11 +49,11 @@ export default class SearchForm extends Component {
 
     handleChange(e) {
         if (e.target.name === "repoName") {
-            this.setState({ repoName: e.target.value });
+            this.setState({ repoName: e.target.value, "submitted": false });
         } else if (e.target.name === "repoOwner") {
-            this.setState({ repoOwner: e.target.value });
+            this.setState({ repoOwner: e.target.value, "submitted": false });
         } else if (e.target.name === "eventType") {
-            this.setState({ eventType: e.target.value });
+            this.setState({ eventType: e.target.value, "submitted": false });
         }
     }
 
@@ -115,7 +114,7 @@ export default class SearchForm extends Component {
                         : ""
                 }
                 {
-                    this.state.eventDetails && this.state.loaded && !this.state.error &&
+                    this.state.eventDetails && this.state.loaded && !this.state.error && this.state.submitted &&
                     <Results eventDetails={this.state.eventDetails} requestedEvent={this.state.eventType} />
                 }
             </form></div>);

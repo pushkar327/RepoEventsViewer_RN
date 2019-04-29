@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper";
 export const Results = ({ eventDetails, requestedEvent }) => {
     const eventsArray = eventDetails && eventDetails.data;
     const matchingEvents = eventsArray && eventsArray.filter(item => (item.type === requestedEvent));
-    return !!matchingEvents ?
+    return (!!matchingEvents && matchingEvents.length !== 0) ?
         <div className="mainComp center">
             <div key={generateUniqueId()} className="padding-t-10"><h3>Event Type : <span className="margin-l-10">{requestedEvent}</span></h3></div>
             <Paper className="root">
